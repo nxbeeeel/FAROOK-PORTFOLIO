@@ -6,7 +6,9 @@
     <title>Umarul Farook - Blockchain & AI Entrepreneur</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,18 +16,101 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
+        :root {
+            --primary: #ffffff;
+            --secondary: #888888;
+            --accent: #00ff88;
+            --background: #000000;
+            --surface: #111111;
+            --border: #222222;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-nav {
+            background: var(--primary);
+            color: var(--background);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-nav:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* Hero Section */
@@ -35,138 +120,48 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            padding: 0 2rem;
         }
 
         .hero-content h1 {
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 800;
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
             margin-bottom: 1rem;
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 0.9;
             letter-spacing: -0.02em;
         }
 
         .hero-content h2 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            font-weight: 400;
-            color: #a8b2d1;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300;
+            color: var(--secondary);
             margin-bottom: 2rem;
             letter-spacing: 0.02em;
         }
 
         .hero-content p {
             font-size: 1.25rem;
-            color: #8892b0;
+            color: var(--secondary);
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 3rem;
             line-height: 1.8;
         }
 
-        /* Sections */
-        section {
-            padding: 80px 0;
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .section-title {
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-        }
-
-        /* About Section */
-        .about-content {
-            color: #a8b2d1;
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .about-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Expertise Cards */
-        .expertise-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .expertise-card {
-            text-align: center;
-            padding: 2rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .expertise-card:last-child {
-            border-bottom: none;
-        }
-
-        .expertise-card .icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .expertise-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .expertise-card p {
-            color: #a8b2d1;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        /* Projects */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
-            padding: 2rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .project-card:last-child {
-            border-bottom: none;
-        }
-
-        .project-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .project-card p {
-            color: #a8b2d1;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        /* Contact */
-        .contact-content {
-            text-align: center;
-        }
-
-        .contact-content p {
-            font-size: 1.1rem;
-            color: #a8b2d1;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: #ffffff;
-            color: #000000;
+        .btn-primary {
+            background: var(--primary);
+            color: var(--background);
             padding: 1rem 2rem;
             border-radius: 8px;
             text-decoration: none;
@@ -177,129 +172,645 @@
             cursor: pointer;
         }
 
-        .cta-button:hover {
-            background: #f0f0f0;
+        .btn-primary:hover {
+            background: var(--accent);
             transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--background);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background: var(--surface);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .about-content p {
+            margin-bottom: 2rem;
+        }
+
+        /* Expertise Cards */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .expertise-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expertise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .expertise-card:hover::before {
+            left: 100%;
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .expertise-card .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--accent), #00cc6a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .expertise-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .expertise-card p {
+            color: var(--secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), #00cc6a);
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .project-card p {
+            color: var(--secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Terminal Effect */
+        .terminal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27ca3f; }
+
+        .terminal-content {
+            color: var(--accent);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* Contact */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
+            .nav {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
             }
             
             section {
-                padding: 60px 0;
+                padding: 80px 0;
             }
             
-            .hero-content h1 {
-                font-size: clamp(2.5rem, 10vw, 4rem);
+            .expertise-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
             }
             
-            .hero-content h2 {
-                font-size: clamp(1.2rem, 5vw, 1.8rem);
+            .expertise-card,
+            .project-card {
+                padding: 2rem;
             }
         }
 
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--secondary);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
     </style>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="logo">UMARUL FAROOK</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <a href="#contact" class="cta-nav">Start Project</a>
+    </nav>
+
     <div class="container">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
                 <h1>UMARUL FAROOK</h1>
                 <h2>Blockchain & AI Entrepreneur</h2>
-                <p>Pioneering the future of decentralized technologies and artificial intelligence through innovative solutions and strategic vision.</p>
+                <p>Where sophistication meets innovation. We craft digital experiences that are minimal, powerful, and unforgettable.</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn-primary">Begin Journey</a>
+                    <a href="#projects" class="btn-secondary">Explore Work</a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                Scroll to explore
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Projects Delivered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
             </div>
         </section>
 
         <!-- About Section -->
         <section id="about">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title">The Vision</h2>
+            <p class="section-subtitle">Where Code Meets Sophistication</p>
             <div class="about-content">
+                <p>
+                    We don't just write code. We craft digital experiences so refined, so elegant, they transcend the ordinary and become extraordinary.
+                </p>
                 <p>
                     I am a passionate entrepreneur at the intersection of blockchain technology and artificial intelligence. 
                     With a deep understanding of decentralized systems and emerging AI technologies, I've dedicated my career 
                     to building innovative solutions that bridge the gap between traditional business models and the future of technology.
-                </p>
-                <p>
-                    My expertise spans across cryptocurrency markets, blockchain infrastructure, and AI agent development, 
-                    allowing me to create comprehensive strategies that leverage the best of both worlds. I believe in the 
-                    transformative power of these technologies to create more transparent, efficient, and inclusive systems.
                 </p>
             </div>
         </section>
 
         <!-- Expertise Section -->
         <section id="expertise">
-            <h2 class="section-title">Core Expertise</h2>
+            <h2 class="section-title">Premium Solutions</h2>
+            <p class="section-subtitle">Zero-Friction Code Upkeep</p>
             <div class="expertise-grid">
                 <div class="expertise-card">
                     <div class="icon">🔗</div>
-                    <h3>Blockchain & Crypto</h3>
-                    <p>Deep expertise in blockchain architecture, smart contracts, DeFi protocols, and cryptocurrency markets. 
-                    Specialized in identifying emerging opportunities and building scalable blockchain solutions.</p>
+                    <h3>Revolutionary Code</h3>
+                    <p>Every line crafted with precision, every function designed with purpose. We don't build features, we create experiences.</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="terminal-line">$ npm install @blockchain/core</div>
+                            <div class="terminal-line">$ git commit -m "Revolutionary"</div>
+                            <div class="terminal-line">$ docker build</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="expertise-card">
                     <div class="icon">🤖</div>
-                    <h3>AI Agents</h3>
-                    <p>Development and deployment of intelligent AI agents for business automation, customer service, 
-                    and decision-making processes. Creating AI systems that learn, adapt, and deliver measurable results.</p>
+                    <h3>Intelligent Design</h3>
+                    <p>Our designs don't just look good, they think. Every pixel, every interaction, every moment is engineered for excellence.</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="terminal-line">$ npm install @ai/core</div>
+                            <div class="terminal-line">$ git commit -m "AI"</div>
+                            <div class="terminal-line">$ docker build</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="expertise-card">
-                    <div class="icon">📈</div>
-                    <h3>Crypto Marketing</h3>
-                    <p>Strategic marketing approaches for blockchain projects and cryptocurrency ventures. 
-                    Building communities, driving adoption, and creating sustainable growth through innovative marketing strategies.</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="terminal-line">const umarul = {</div>
+                            <div class="terminal-line">  vision: "Revolutionary",</div>
+                            <div class="terminal-line">  approach: "Minimalist",</div>
+                            <div class="terminal-line">  quality: "Masterpiece",</div>
+                            <div class="terminal-line">  innovation: "Boundless",</div>
+                            <div class="terminal-line">  excellence: "99.9%",</div>
+                            <div class="terminal-line">  future: "Now"</div>
+                            <div class="terminal-line">};</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Projects Section -->
         <section id="projects">
-            <h2 class="section-title">Featured Projects</h2>
+            <h2 class="section-title">Success Stories</h2>
+            <p class="section-subtitle">Results That Speak Volumes</p>
             <div class="projects-grid">
                 <div class="project-card">
                     <h3>DeFi Yield Optimization Platform</h3>
                     <p>Developed an intelligent platform that automatically optimizes yield farming strategies across multiple 
                     DeFi protocols, resulting in 40% higher returns for users while maintaining security standards.</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="terminal-line">✓ Build completed</div>
+                            <div class="terminal-line">✓ Tests passed</div>
+                            <div class="terminal-line">✓ Deployed successfully</div>
+                            <div class="terminal-line">$ Ready for the world!</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="project-card">
                     <h3>AI-Powered Trading Bot</h3>
                     <p>Created an advanced trading bot using machine learning algorithms that analyzes market patterns 
                     and executes trades with high precision, achieving consistent profitability in volatile crypto markets.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Blockchain Supply Chain Solution</h3>
-                    <p>Implemented a transparent supply chain tracking system using blockchain technology, 
-                    reducing fraud by 85% and improving traceability across international trade networks.</p>
-                </div>
-                <div class="project-card">
-                    <h3>NFT Marketplace with AI Curation</h3>
-                    <p>Built an innovative NFT marketplace featuring AI-powered curation and discovery algorithms, 
-                    helping artists and collectors find relevant content and increasing marketplace engagement by 60%.</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="terminal-line">$ npm run deploy</div>
+                            <div class="terminal-line">Deploying to production...</div>
+                            <div class="terminal-line">✓ Build completed</div>
+                            <div class="terminal-line">$ Ready for the world!</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact">
-            <h2 class="section-title">Get In Touch</h2>
+            <h2 class="section-title">Ready to Transform</h2>
+            <p class="section-subtitle">Ready to Elevate Your Digital Presence?</p>
             <div class="contact-content">
-                <p>Ready to explore opportunities in blockchain, AI, or crypto marketing? Let's discuss how we can collaborate 
-                to bring innovative ideas to life.</p>
-                <a href="mailto:umarul.farook@example.com" class="cta-button">Send Message</a>
+                <p>Join the companies already experiencing the transformation. Your journey to digital excellence starts with a single conversation.</p>
+                <div class="hero-cta">
+                    <a href="mailto:umarul.farook@example.com" class="btn-primary">Get Started</a>
+                    <a href="#about" class="btn-secondary">Learn More</a>
+                </div>
             </div>
         </section>
     </div>
 
     <script>
-        // Smooth scrolling for navigation
+        // GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorTrail = document.querySelector('.cursor-trail');
+        let mouseX = 0, mouseY = 0;
+        let trailX = 0, trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function updateCursor() {
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+
+            trailX += (mouseX - trailX) * 0.1;
+            trailY += (mouseY - trailY) * 0.1;
+            cursorTrail.style.left = trailX - 4 + 'px';
+            cursorTrail.style.top = trailY - 4 + 'px';
+
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        // Terminal Animation
+        function animateTerminal() {
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            terminalLines.forEach((line, index) => {
+                gsap.to(line, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    delay: index * 0.2,
+                    ease: "power2.out"
+                });
+            });
+        }
+
+        // Scroll Animations
+        function initScrollAnimations() {
+            gsap.from('.hero-content h1', {
+                duration: 1.5,
+                y: 100,
+                opacity: 0,
+                ease: 'power4.out',
+                delay: 0.5
+            });
+
+            gsap.from('.hero-content h2', {
+                duration: 1.5,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 1
+            });
+
+            gsap.from('.hero-content p', {
+                duration: 1.5,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 1.5
+            });
+
+            gsap.from('.hero-cta', {
+                duration: 1.5,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 2
+            });
+
+            gsap.from('.stat-item', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.stats',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            gsap.from('.expertise-card', {
+                duration: 1,
+                y: 100,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#expertise',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            gsap.from('.project-card', {
+                duration: 1,
+                y: 100,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#projects',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        }
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            initScrollAnimations();
+            setTimeout(animateTerminal, 1000);
+        });
+
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -312,6 +823,22 @@
                 }
             });
         });
+
+        // Fade in on scroll
+        function checkScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
     </script>
 </body>
 </html>
